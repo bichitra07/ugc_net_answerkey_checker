@@ -187,7 +187,7 @@ def extract_response_blocks(text, ret='dict'):
         return None
     # Regular expressions
     question_id_pattern = r'Question ID\s*(?:\s*:\s*)?(\d+)'
-    status_pattern = r'Status\s*(?:\s*:\s*)?(Answered|Not Answered)'
+    status_pattern = r'Status\s*(?:\s*:\s*)*(.*)'
     chosen_option_pattern = r'Chosen Option\s*(?:\s*:\s*)?(\S+)'
 
     # Find all matches
@@ -200,7 +200,7 @@ def extract_response_blocks(text, ret='dict'):
     for question_id, status, chosen_option in zip(question_ids, statuses, chosen_options):
 
         question_id_int = int(question_id)
-        chosen_option_int = clean_chosen_option(chosen_option) if status == 'Answered' else None
+        chosen_option_int = clean_chosen_option(chosen_option) if status != 'Not Answered' else None
         
         df_data.append({
             'Question ID': question_id_int,
@@ -230,11 +230,10 @@ def evaluate_responses(answerkey_dict, response_dict):
         correct_answers = []
         incorrect_answers = []
         unattempted_answers = []
-        not_found_answers = []
 
         for key, val in responses.items():
             if key not in answerkey_dict:
-                not_found_answers.append({key: val})
+                print(f"Key {key} not found in answerkey_dict.")
                 continue
             if val is None:
                 unattempted_answers.append({key: val})
@@ -273,8 +272,6 @@ def evaluate_responses(answerkey_dict, response_dict):
     total_questions = result_paper1['overview']['total'] + result_paper2['overview']['total']
     max_score = total_questions * 2
 
-    score = f"{total_score}/{max_score}"
-    
     overall_result = {
         'overview': {
             'total': result_paper1['overview']['total'] + result_paper2['overview']['total'],
