@@ -59,7 +59,7 @@ sudo apt-get install tesseract-ocr
 ## Download Response Sheet PDF
 
 Download your response sheet PDF from the [NTA website](https://ugcnet.nta.ac.in/).  
-*Note: Login required.*
+*Note: Login required. [Currently, Login is closed.]*
 
 ## License
 
