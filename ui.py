@@ -121,7 +121,7 @@ class AnswerKeyCheckerUI:
             cropped_img = utils.preprocess_image(cropped_img)
             img_rgb = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2RGB)
             img_pil = Image.fromarray(img_rgb)
-            ocr_result = pytesseract.image_to_data(cropped_img, output_type=pytesseract.Output.DICT)
+            ocr_result = pytesseract.image_to_data(img_pil, output_type=pytesseract.Output.DICT)
             extracted_text = utils.extract_lines(ocr_result)
             response_data = utils.extract_response_blocks(extracted_text)
             self.response_dict.update(response_data)

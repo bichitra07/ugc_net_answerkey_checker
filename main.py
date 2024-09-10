@@ -35,7 +35,7 @@ def main():
         img_rgb = cv2.cvtColor(cropped_img, cv2.COLOR_BGR2RGB)
         img_pil = Image.fromarray(img_rgb)
         # Perform OCR using pytesseract
-        ocr_result = pytesseract.image_to_data(cropped_img, output_type=pytesseract.Output.DICT)
+        ocr_result = pytesseract.image_to_data(img_pil, output_type=pytesseract.Output.DICT)
         # Extract text lines
         extracted_text = utils.extract_lines(ocr_result)
         # Extract response blocks
