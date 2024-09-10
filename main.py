@@ -6,7 +6,7 @@ import pytesseract
 def main():
     # Call the setup function at the beginning of your script
     utils.setup_os_specific_paths()
-    # Select CSV and PDF files
+    # Select CSV and PDF files.
     csv_path = utils.search_csv_files()
     if not csv_path:
         csv_path = utils.select_csv()
