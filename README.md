@@ -67,6 +67,10 @@ sudo apt-get install tesseract-ocr
 Download your response sheet PDF from the [NTA website](https://ugcnet.nta.ac.in/).  
 *Note: Login required. [Currently, Login is closed.]*
 
+## Wait for the Results
+
+It will take some time to evaluate the response pdf as it has to be converted to images and then processed. [*Currently, it takes around 2-5 minutes.*]
+
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
