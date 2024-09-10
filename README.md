@@ -5,28 +5,29 @@
 
 - Python 3.10 or above
 
-## Install Poppler Utilities
+### Install Poppler Utilities
 
-### For Linux (Ubuntu)
+#### For Linux (Ubuntu)
 
 ```bash
 sudo apt-get install poppler-utils
 ```
 
-### For Windows
+#### For Windows
 
 1. Download Poppler utilities from [here](https://github.com/oschwartz10612/poppler-windows/releases/).
+
 2. Extract the contents inside the `C://` directory.
 
-## Install Tesseract-OCR
+### Install Tesseract-OCR
 
-### For Linux
+#### For Linux
 
 ```bash
 sudo apt-get install tesseract-ocr
 ```
 
-### For Windows
+#### For Windows
 
 1. Download the Tesseract-OCR setup file from [here](https://github.com/UB-Mannheim/tesseract/wiki).
 2. Install it.
