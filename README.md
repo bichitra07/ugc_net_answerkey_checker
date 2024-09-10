@@ -2,8 +2,8 @@
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
-![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/ugc_net_answerkey_checker/ci.yml?branch=main)
-![Coverage](https://img.shields.io/codecov/c/github/bichitr07/ugc_net_answerkey_checker)
+<!-- ![Build Status](https://img.shields.io/github/actions/workflow/status/bichitra07/ugc_net_answerkey_checker/.github/workflows/ci.yml?branch=main)
+![Coverage](https://img.shields.io/codecov/c/github/bichitr07/ugc_net_answerkey_checker) -->
 
 
 ## Prerequisites
