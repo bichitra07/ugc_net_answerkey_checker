@@ -265,6 +265,15 @@ def evaluate_responses(answerkey_dict, response_dict):
 
     result_paper1 = evaluate_paper(answerkey_dict, paper1_responses)
     result_paper2 = evaluate_paper(answerkey_dict, paper2_responses)
+
+    paper1_score_numerator = int(result_paper1['overview']['score'].split('/')[0])
+    paper2_score_numerator = int(result_paper2['overview']['score'].split('/')[0])
+    total_score = paper1_score_numerator + paper2_score_numerator
+
+    total_questions = result_paper1['overview']['total'] + result_paper2['overview']['total']
+    max_score = total_questions * 2
+
+    score = f"{total_score}/{max_score}"
     
     overall_result = {
         'overview': {
@@ -272,7 +281,7 @@ def evaluate_responses(answerkey_dict, response_dict):
             'correct': result_paper1['overview']['correct'] + result_paper2['overview']['correct'],
             'incorrect': result_paper1['overview']['incorrect'] + result_paper2['overview']['incorrect'],
             'unattempted': result_paper1['overview']['unattempted'] + result_paper2['overview']['unattempted'],
-            'score': f'{int(result_paper1['overview']['score'].split('/')[0]) + int(result_paper2['overview']['score'].split('/')[0])}/{(result_paper1['overview']['total'] + result_paper2['overview']['total'])*2}',
+            'score': f'{total_score}/{max_score}',
             'accuracy': (result_paper1['overview']['correct'] + result_paper2['overview']['correct']) / (result_paper1['overview']['total'] + result_paper2['overview']['total']) * 100 if (result_paper1['overview']['total'] + result_paper2['overview']['total']) > 0 else 0
         },
         'detailed': {
