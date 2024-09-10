@@ -1,5 +1,11 @@
 # UGC-NET AnswerKey Checker
 
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
+![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/ugc_net_answerkey_checker/ci.yml?branch=main)
+![Coverage](https://img.shields.io/codecov/c/github/bichitr07/ugc_net_answerkey_checker)
+
+
 ## Prerequisites
 
 - Python 3.10 or above
