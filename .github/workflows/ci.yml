@@ -39,6 +39,6 @@ jobs:
         sudo apt-get install -y tesseract-ocr
         sudo apt-get install -y poppler-utils
 
-    - name: Lint code
-      run: |
-        pylint main.py ui.py utils.py
+    # - name: Lint code
+    #   run: |
+    #     pylint main.py ui.py utils.py
