@@ -306,15 +306,7 @@ def search_csv_files():
         return csv_files[0]
     return None
 
-def save_results_to_csv(answerkey_dict, response_dict, pdf_filename):
-    # Create results directory if it doesn't exist
-    results_dir = 'results'
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir,exist_ok=True)
-    
-    # Extract the base name of the PDF (without extension)
-    base_filename = os.path.splitext(os.path.basename(pdf_filename))[0]
-    
+def save_results_to_csv(answerkey_dict, response_dict, file_path):
     # Prepare the data for the DataFrame
     data = []
     for question_id, response in response_dict.items():
@@ -327,34 +319,27 @@ def save_results_to_csv(answerkey_dict, response_dict, pdf_filename):
             status = 'Correct'
         else:
             status = 'Incorrect'
-        
+
         data.append({
             'Question ID': question_id,
             'Answer': correct_answer,
             'Response': response,
             'Status': status
         })
-    
+
     # Create a DataFrame from the data
     df = pd.DataFrame(data)
-    
-    # Save to CSV in the results folder
-    output_path = os.path.join(results_dir, f"{base_filename}.csv")
-    df.to_csv(output_path, index=False)
-    
-    print(f"Results saved to {output_path}")
 
-def save_evaluation_to_txt(evaluation_result, filename):
-    # Create results directory if it doesn't exist
-    results_dir = 'results'
-    if not os.path.exists(results_dir):
-        os.makedirs(results_dir, exist_ok=True)
-    
-    # Prepare the file path
-    base_filename = os.path.splitext(os.path.basename(filename))[0]
-    output_path = os.path.join(results_dir, f"{base_filename}_evaluation.txt")
+    # Save to the provided file path
+    df.to_csv(file_path, index=False)
 
-    with open(output_path, 'w') as f:
+    print(f"Results saved to {file_path}")
+
+def save_evaluation_to_txt(evaluation_result, file_path):
+    # Modify the file path to save as a .txt file
+    txt_file_path = os.path.splitext(file_path)[0] + "_evaluation.txt"
+
+    with open(txt_file_path, 'w') as f:
         # Paper 1 Overview
         f.write("Paper 1 Overview:\n")
         f.write(f"Total Questions: {evaluation_result['paper1']['overview']['total']}\n")
@@ -363,7 +348,7 @@ def save_evaluation_to_txt(evaluation_result, filename):
         f.write(f"Unattempted: {evaluation_result['paper1']['overview']['unattempted']}\n")
         f.write(f"Score: {evaluation_result['paper1']['overview']['score']}\n")
         f.write(f"Accuracy: {evaluation_result['paper1']['overview']['accuracy']:.2f}%\n\n")
-        
+
         # Paper 2 Overview
         f.write("Paper 2 Overview:\n")
         f.write(f"Total Questions: {evaluation_result['paper2']['overview']['total']}\n")
@@ -372,7 +357,7 @@ def save_evaluation_to_txt(evaluation_result, filename):
         f.write(f"Unattempted: {evaluation_result['paper2']['overview']['unattempted']}\n")
         f.write(f"Score: {evaluation_result['paper2']['overview']['score']}\n")
         f.write(f"Accuracy: {evaluation_result['paper2']['overview']['accuracy']:.2f}%\n\n")
-        
+
         # Overall Overview
         f.write("Overall Overview:\n")
         f.write(f"Total Questions: {evaluation_result['overall']['overview']['total']}\n")
@@ -381,19 +366,18 @@ def save_evaluation_to_txt(evaluation_result, filename):
         f.write(f"Unattempted: {evaluation_result['overall']['overview']['unattempted']}\n")
         f.write(f"Score: {evaluation_result['overall']['overview']['score']}\n")
         f.write(f"Accuracy: {evaluation_result['overall']['overview']['accuracy']:.2f}%\n\n")
-        
+
         # Detailed Results for Paper 1 and Paper 2
         f.write("Detailed Correct Answers (Paper 1 & 2):\n")
         for answer in evaluation_result['overall']['detailed']['correct_answers']:
             f.write(f"{list(answer.keys())[0]}: {list(answer.values())[0]} (Correct)\n")
-        
+
         f.write("\nDetailed Incorrect Answers (Paper 1 & 2):\n")
         for answer in evaluation_result['overall']['detailed']['incorrect_answers']:
             f.write(f"{list(answer.keys())[0]}: {list(answer.values())[0]} (Incorrect)\n")
-        
+
         f.write("\nDetailed Unattempted Answers (Paper 1 & 2):\n")
         for answer in evaluation_result['overall']['detailed']['unattempted_answers']:
             f.write(f"{list(answer.keys())[0]}: {list(answer.values())[0]} (Unattempted)\n")
-    
-    print(f"Evaluation results saved to {output_path}")
 
+    print(f"Evaluation results saved to {txt_file_path}")
