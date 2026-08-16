@@ -19,13 +19,19 @@ st.markdown("""
 st.title("📝 UGC NET Answer Key Checker")
 st.markdown("Instantly evaluate your UGC NET Response Sheet against the official NTA Answer Key.")
 
-st.markdown("""
-<div style='color: gray; font-size: 0.9em; margin-bottom: 20px;'>
-👨‍💻 Created by <b>Bichitra Panda</b> | 
-<a href='https://github.com/bichitra07/ugc_net_answerkey_checker' style='text-decoration: none;'>🔗 GitHub</a> | 
-<a href='https://in.linkedin.com/in/bichitra-panda-484124148' style='text-decoration: none;'>🔗 LinkedIn</a>
-</div>
-""", unsafe_allow_html=True)
+col_auth, col_btn = st.columns([3, 1])
+with col_auth:
+    st.markdown("""
+    <div style='color: gray; font-size: 0.9em; margin-bottom: 20px;'>
+    👨‍💻 Created by <b>Bichitra Panda</b> | 
+    <a href='https://github.com/bichitra07/ugc_net_answerkey_checker' style='text-decoration: none;'>🔗 GitHub</a> | 
+    <a href='https://in.linkedin.com/in/bichitra-panda-484124148' style='text-decoration: none;'>🔗 LinkedIn</a>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col_btn:
+    if st.button("ℹ️ Download Provisional Key", use_container_width=True):
+        show_instructions()
 
 # File uploaders
 ak_type = st.sidebar.radio("Answer Key Format:", ["Provisional (HTML/CSV)", "Final (PDF)"], horizontal=True)
@@ -60,11 +66,7 @@ def show_instructions():
     if st.button("Got it!", use_container_width=True):
         st.rerun()
 
-col1, col2 = st.sidebar.columns(2)
-if col1.button("ℹ️ Download Provisional Answer Key", use_container_width=True):
-    show_instructions()
-
-submit = col2.button("Evaluate Now", type="primary", use_container_width=True)
+submit = st.sidebar.button("Evaluate Now", type="primary", use_container_width=True)
 
 
 if submit:
@@ -99,7 +101,20 @@ if submit:
                     # 3. Evaluate and Annotate
                     metrics = evaluate_and_annotate(pdf_data, ans_dict, pdf_path, out_pdf_path)
                     
-                    st.success("🎉 Evaluation Complete! Scroll down to download your annotated PDF.")
+                    with open(out_pdf_path, "rb") as f:
+                        pdf_bytes = f.read()
+                        
+                    msg_col, btn_col = st.columns([2, 1])
+                    msg_col.success("🎉 Evaluation Complete! Your results are ready.")
+                    with btn_col:
+                        st.download_button(
+                            label="⬇️ Download Annotated PDF",
+                            data=pdf_bytes,
+                            file_name="Evaluated_" + response_pdf.name,
+                            mime="application/pdf",
+                            type="primary",
+                            use_container_width=True
+                        )
                     
                     # Display Metrics
                     st.header("📊 Detailed Analysis")
@@ -133,19 +148,7 @@ if submit:
                     with tab3:
                         render_metrics(st, metrics['Paper 2'])
                     
-                    st.divider()
-                    
-                    # Provide Download Button for the new PDF
-                    with open(out_pdf_path, "rb") as f:
-                        pdf_bytes = f.read()
-                        
-                    st.download_button(
-                        label="⬇️ Download Annotated Response Sheet (PDF)",
-                        data=pdf_bytes,
-                        file_name="Evaluated_" + response_pdf.name,
-                        mime="application/pdf",
-                        type="primary"
-                    )
+
                     
             except Exception as e:
                 import traceback
