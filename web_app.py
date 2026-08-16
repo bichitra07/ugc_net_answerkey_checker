@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import tempfile
 
-from core.answerkey_parser import read_answerkey
+from core.answerkey_parser import read_answerkey, parse_final_pdf_key
 from core.pdf_parser import extract_pdf_data
 from core.evaluator import evaluate_and_annotate
 
@@ -21,7 +21,13 @@ st.markdown("Instantly evaluate your UGC NET Response Sheet against the official
 
 # File uploaders
 st.sidebar.header("1. Upload Files")
-answerkey_file = st.sidebar.file_uploader("Upload Answer Key (HTML or CSV)", type=['html', 'csv'])
+ak_type = st.sidebar.radio("Select Answer Key Type:", ["Provisional (HTML/CSV)", "Final (PDF)"])
+
+if ak_type == "Provisional (HTML/CSV)":
+    answerkey_file = st.sidebar.file_uploader("Upload Answer Key (HTML or CSV)", type=['html', 'csv'])
+else:
+    answerkey_file = st.sidebar.file_uploader("Upload Final Answer Key (PDF)", type=['pdf'])
+
 response_pdf = st.sidebar.file_uploader("Upload Response Sheet (PDF)", type=['pdf'])
 
 @st.dialog("ℹ️ How to download the Answer Key", width="large")
@@ -72,7 +78,10 @@ if st.sidebar.button("Evaluate Now", type="primary", use_container_width=True):
                     out_pdf_path = os.path.join(temp_dir, "Evaluated_" + response_pdf.name)
                     
                     # 1. Parse Answer Key
-                    ans_dict = read_answerkey(ak_path)
+                    if ak_type == "Final (PDF)":
+                        ans_dict = parse_final_pdf_key(ak_path)
+                    else:
+                        ans_dict = read_answerkey(ak_path)
                     
                     # 2. Extract PDF Data
                     pdf_data = extract_pdf_data(pdf_path)

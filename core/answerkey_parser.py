@@ -110,3 +110,37 @@ def read_answerkey(file_path):
         ans_dict[q_id] = a_id
         
     return ans_dict
+
+def parse_final_pdf_key(pdf_path):
+    """
+    Parses the NTA Final Answer Key (PDF format).
+    Extracts Question IDs and their Correct Option numbers using Regex.
+    Returns a dictionary mapping: Question ID (str) -> Correct Option (str)
+    """
+    import fitz
+    import re
+    
+    doc = fitz.open(pdf_path)
+    ans_dict = {}
+    
+    for page in doc:
+        text = page.get_text()
+        lines = [line.strip() for line in text.split('\n') if line.strip()]
+        
+        for i in range(len(lines) - 1):
+            # Check if current line is a Question ID (e.g., 8-15 digit number)
+            if re.match(r'^\d{8,15}$', lines[i]):
+                # The next line is the correct option index (e.g., 1, 2, 3, 4, or DROP)
+                q_id = lines[i]
+                ans = lines[i+1]
+                
+                # Basic sanity check to ensure the next line isn't another long Question ID
+                if not re.match(r'^\d{8,15}$', ans):
+                    ans_dict[q_id] = ans
+                    
+    doc.close()
+    
+    if not ans_dict:
+        raise ValueError("Could not extract any Answer Keys from the PDF. Ensure it is a valid digital Final Answer Key.")
+        
+    return ans_dict

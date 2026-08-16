@@ -9,7 +9,7 @@ A professional, extremely fast, and robust tool for students to automatically ev
 - **Lightning Fast Evaluation**: Processes a standard 100-page response sheet in less than 1 second.
 - **No OCR Required**: Natively extracts text and Option IDs from the digital PDF using PyMuPDF. No heavy image processing required.
 - **Native PDF Annotations**: Automatically outputs an evaluated copy of your PDF (`_evaluated.pdf`) with ✅ Correct and ❌ Incorrect annotations directly on the questions, along with a top-level scorecard.
-- **Smart Answer Key Parser**: Supports uploading both HTML (saved directly from the portal) or CSV answer keys. The system natively uses the PDF Option IDs, requiring zero manual key normalization.
+- **Smart Answer Key Parser**: Supports both **Provisional (HTML/CSV)** and **Final (PDF)** Answer Keys. The system instantly processes the exact formats released by NTA requiring zero manual key normalization.
 - **Web App & Docker**: Includes a sleek Streamlit Web Application and Docker Compose configuration for easy hosting locally or on the internet via Ngrok.
 
 ## Prerequisites
