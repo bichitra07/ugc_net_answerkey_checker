@@ -29,7 +29,7 @@ def show_instructions():
     st.markdown("""
     ### Option 1: Save as HTML (Recommended)
     **Step 1:** Log into your NTA UGC NET account.  
-    **Step 2:** Click on **"Challenge Answer Key"** to open the page containing the table of correct answers.  
+    **Step 2:** Navigate to **"Challenge Answer Key"** to open the page containing the table of correct answers.  
     **Step 3:** Save the file:
     - 💻 **On PC/Mac:** Press `Ctrl + S` (or `Cmd + S`) and choose "Save as type: Webpage, HTML Only".
     - 📱 **On Mobile (Android/Chrome):** Tap the 3-dot Menu icon in the top right corner and tap the **Download ⬇️** icon. This saves the page as an HTML file.
