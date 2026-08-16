@@ -8,20 +8,11 @@ from core.evaluator import evaluate_and_annotate
 
 st.set_page_config(page_title="UGC NET Evaluator", layout="wide", page_icon="📝")
 
-# Sidebar profile links
-st.sidebar.markdown("""
-### 👨‍💻 Created by Bichitra Panda
-- [🔗 GitHub Repository](https://github.com/bichitra07/ugc_net_answerkey_checker)
-- [🔗 LinkedIn Profile](https://in.linkedin.com/in/bichitra-panda-484124148)
----
-""")
-
 st.title("📝 UGC NET Answer Key Checker")
 st.markdown("Instantly evaluate your UGC NET Response Sheet against the official NTA Answer Key.")
 
 # File uploaders
-st.sidebar.header("1. Upload Files")
-ak_type = st.sidebar.radio("Select Answer Key Type:", ["Provisional (HTML/CSV)", "Final (PDF)"])
+ak_type = st.sidebar.radio("Answer Key Format:", ["Provisional (HTML/CSV)", "Final (PDF)"], horizontal=True)
 
 if ak_type == "Provisional (HTML/CSV)":
     answerkey_file = st.sidebar.file_uploader("Upload Answer Key (HTML or CSV)", type=['html', 'csv'])
@@ -53,11 +44,23 @@ def show_instructions():
     if st.button("Got it!", use_container_width=True):
         st.rerun()
 
-if st.sidebar.button("ℹ️ How to download Answer Key?", use_container_width=True):
+col1, col2 = st.sidebar.columns(2)
+if col1.button("ℹ️ Download Guide", use_container_width=True):
     show_instructions()
 
+submit = col2.button("Evaluate Now", type="primary", use_container_width=True)
 
-if st.sidebar.button("Evaluate Now", type="primary", use_container_width=True):
+st.sidebar.divider()
+st.sidebar.markdown("""
+<div style='text-align: center; color: gray; font-size: 0.9em;'>
+👨‍💻 Created by <b>Bichitra Panda</b><br>
+<a href='https://github.com/bichitra07/ugc_net_answerkey_checker' style='text-decoration: none;'>🔗 GitHub</a> • 
+<a href='https://in.linkedin.com/in/bichitra-panda-484124148' style='text-decoration: none;'>🔗 LinkedIn</a>
+</div>
+""", unsafe_allow_html=True)
+
+
+if submit:
     if not answerkey_file or not response_pdf:
         st.sidebar.error("Please upload both files first!")
     else:
