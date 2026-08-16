@@ -27,7 +27,7 @@ jobs:
           echo "    domain: ${{ secrets.NGROK_DOMAIN }}" >> ngrok.yml
 
       - name: Start Docker Compose with Ngrok Profile
-        run: docker-compose --profile ngrok up -d
+        run: docker compose --profile ngrok up -d
 
       - name: Wait for Ngrok to initialize
         run: sleep 10
