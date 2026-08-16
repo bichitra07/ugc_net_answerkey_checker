@@ -19,7 +19,7 @@ jobs:
       - name: Create .env and ngrok.yml from Secrets
         run: |
           echo "NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }}" > .env
-          echo "authtoken: ${{ secrets.NGROK_AUTHTOKEN }}" > ngrok.yml
+          echo "version: \"2\"" > ngrok.yml
           echo "tunnels:" >> ngrok.yml
           echo "  webapp:" >> ngrok.yml
           echo "    proto: http" >> ngrok.yml

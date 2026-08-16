@@ -1,4 +1,4 @@
-authtoken: ${NGROK_AUTHTOKEN}
+version: "2"
 tunnels:
   webapp:
     proto: http
