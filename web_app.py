@@ -99,7 +99,8 @@ if submit:
                     pdf_data = extract_pdf_data(pdf_path)
                     
                     # 3. Evaluate and Annotate
-                    metrics = evaluate_and_annotate(pdf_data, ans_dict, pdf_path, out_pdf_path)
+                    eval_type = "FINAL" if ak_type == "Final (PDF)" else "PROVISIONAL"
+                    metrics = evaluate_and_annotate(pdf_data, ans_dict, pdf_path, out_pdf_path, evaluation_type=eval_type)
                     
                     with open(out_pdf_path, "rb") as f:
                         pdf_bytes = f.read()
@@ -130,14 +131,16 @@ if submit:
                         correct = data['Correct']
                         incorrect = data['Incorrect']
                         unattempted = data['Unattempted']
+                        dropped = data.get('Dropped', 0)
                         score = data['Score']
-                        percentage = (correct / total) * 100
+                        percentage = (correct / total) * 100 if total > 0 else 0
                         
-                        col1, col2, col3, col4 = container.columns(4)
+                        col1, col2, col3, col4, col5 = container.columns(5)
                         col1.metric("🎯 Score", f"{score} / {total*2}", f"{percentage:.2f}%")
                         col2.metric("✅ Correct", correct)
                         col3.metric("❌ Incorrect", incorrect)
                         col4.metric("➖ Unattempted", unattempted)
+                        col5.metric("🗑️ Dropped", dropped)
                         
                         container.progress(percentage / 100)
                         
