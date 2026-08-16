@@ -25,3 +25,7 @@ env/
 build/
 dist/
 *.spec
+
+# Ngrok Configuration
+ngrok.yml
+

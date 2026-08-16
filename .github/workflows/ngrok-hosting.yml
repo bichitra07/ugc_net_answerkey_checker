@@ -16,8 +16,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Create .env file for Ngrok Auth
-        run: echo "NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }}" > .env
+      - name: Create .env and ngrok.yml from Secrets
+        run: |
+          echo "NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }}" > .env
+          echo "authtoken: ${{ secrets.NGROK_AUTHTOKEN }}" > ngrok.yml
+          echo "tunnels:" >> ngrok.yml
+          echo "  webapp:" >> ngrok.yml
+          echo "    proto: http" >> ngrok.yml
+          echo "    addr: web:8501" >> ngrok.yml
+          echo "    domain: ${{ secrets.NGROK_DOMAIN }}" >> ngrok.yml
 
       - name: Start Docker Compose with Ngrok Profile
         run: docker-compose --profile ngrok up -d
@@ -29,8 +36,7 @@ jobs:
         run: |
           echo "=========================================================="
           echo "🌐 YOUR WEB APP IS NOW LIVE!"
-          echo "Access it here:"
-          curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"[^"]*"' | head -n 1 | cut -d'"' -f4
+          echo "Access it here: https://${{ secrets.NGROK_DOMAIN }}"
           echo "=========================================================="
 
       - name: Keep Alive

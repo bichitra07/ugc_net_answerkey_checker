@@ -13,11 +13,15 @@ services:
 
   ngrok:
     image: ngrok/ngrok:latest
-    environment:
-      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    env_file:
+      - .env
     command:
-      - "http"
-      - "web:8501"
+      - "start"
+      - "--all"
+      - "--config"
+      - "/etc/ngrok.yml"
+    volumes:
+      - ./ngrok.yml:/etc/ngrok.yml
     ports:
       - "4040:4040"
     depends_on:

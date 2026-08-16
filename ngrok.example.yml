@@ -1,0 +1,7 @@
+authtoken: ${NGROK_AUTHTOKEN}
+tunnels:
+  webapp:
+    proto: http
+    addr: web:8501
+    # Replace the domain below with your own free static Ngrok domain
+    domain: your-static-domain-here.ngrok-free.app

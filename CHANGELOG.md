@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Streamlit Web Application**: Added `web_app.py`, providing a sleek, browser-based drag-and-drop dashboard for evaluations.
+- **Docker & Ngrok Hosting**: Added a robust Dockerized infrastructure (`Dockerfile`, `docker-compose.yml`) enabling 1-click deployments locally, over LAN, and to the public internet securely via Ngrok configs.
+- **GitHub Actions Free Cloud Hosting**: Integrated an automated workflow to host the app directly from GitHub Actions for free, using GitHub Secrets to secure Ngrok credentials.
 - **Core Modular Architecture**: Reorganized into `core` and `gui` packages to prepare for future Web App deployments.
 - **Smart PDF Mapping**: Evaluator directly uses Option IDs natively embedded within the PDF text instead of forcing external Answer Key normalization.
 - **Native PDF Annotations**: Evaluated outputs are saved natively as `_evaluated.pdf`.

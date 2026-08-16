@@ -30,33 +30,32 @@ docker-compose --profile local up -d
 ---
 
 ## 3. Expose to the Internet via Ngrok (Local Host)
-If you want to send a link to a friend over the internet, but run the server from your own computer:
+If you want to send a link to a friend over the internet, but run the server from your own computer, you can use your static Ngrok domain.
 
-1. Copy your Ngrok Authtoken from your Ngrok dashboard.
-2. Set it as an environment variable in your terminal:
-   - **Linux/Mac**: `export NGROK_AUTHTOKEN="your_token_here"`
-   - **Windows (CMD)**: `set NGROK_AUTHTOKEN=your_token_here`
-   - **Windows (PowerShell)**: `$env:NGROK_AUTHTOKEN="your_token_here"`
-3. Run Docker Compose with the `ngrok` profile:
+### Setup (One-time)
+1. Copy `.env.example` to `.env` and `ngrok.example.yml` to `ngrok.yml`.
+2. Open `.env` and add your Ngrok Authtoken.
+3. Open `ngrok.yml` and add your static Ngrok domain (e.g., `snide-brownnose-amperage.ngrok-free.dev`).
+*(Note: These files are ignored by git so your credentials are safe).*
+
+### Run
+1. Run Docker Compose with the `ngrok` profile:
    ```bash
    docker-compose --profile ngrok up -d
    ```
-4. View your public URL by checking the Ngrok container logs:
-   ```bash
-   docker logs ugc_net_answerkey_checker-ngrok-1 | grep "started tunnel"
-   ```
-   *Look for the `url=https://abc-123.ngrok-free.app` string.*
+2. Your app is now live at your static Ngrok domain!
 
 ---
 
 ## 4. Expose to the Internet via GitHub Actions (Free Cloud Server)
 If you don't want to keep your computer turned on, you can use GitHub's servers to host your Docker container and Ngrok tunnel for up to 6 hours at a time!
 
-### Setup:
+### Setup (One-time):
 1. Go to your GitHub Repository -> **Settings** -> **Secrets and variables** -> **Actions**.
 2. Click **New repository secret**.
-3. Name: `NGROK_AUTHTOKEN`
-4. Secret: Paste your Ngrok token here and click **Add secret**.
+3. Name: `NGROK_AUTHTOKEN`, Secret: Paste your Ngrok Authtoken.
+4. Click **New repository secret** again.
+5. Name: `NGROK_DOMAIN`, Secret: Paste your static domain (e.g., `snide-brownnose-amperage.ngrok-free.dev`).
 
 ### How to Start the Server:
 1. Go to the **Actions** tab in your GitHub repository.
