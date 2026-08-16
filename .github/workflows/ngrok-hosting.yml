@@ -1,0 +1,39 @@
+name: Host Web App via Ngrok
+
+on:
+  workflow_dispatch:
+    inputs:
+      duration_hours:
+        description: 'How many hours to keep the server alive (Max 6)'
+        required: true
+        default: '1'
+
+jobs:
+  host-app:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Create .env file for Ngrok Auth
+        run: echo "NGROK_AUTHTOKEN=${{ secrets.NGROK_AUTHTOKEN }}" > .env
+
+      - name: Start Docker Compose with Ngrok Profile
+        run: docker-compose --profile ngrok up -d
+
+      - name: Wait for Ngrok to initialize
+        run: sleep 10
+
+      - name: Display Public URL
+        run: |
+          echo "=========================================================="
+          echo "🌐 YOUR WEB APP IS NOW LIVE!"
+          echo "Access it here:"
+          curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"[^"]*"' | head -n 1 | cut -d'"' -f4
+          echo "=========================================================="
+
+      - name: Keep Alive
+        run: |
+          echo "Keeping server alive for ${{ github.event.inputs.duration_hours }} hours..."
+          sleep $((${{ github.event.inputs.duration_hours }} * 3600))
