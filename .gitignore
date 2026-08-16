@@ -20,3 +20,8 @@ env/
 
 # MacOS
 .DS_Store
+
+# PyInstaller / Build artifacts
+build/
+dist/
+*.spec
