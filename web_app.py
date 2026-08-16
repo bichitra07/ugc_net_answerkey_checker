@@ -6,7 +6,15 @@ from core.answerkey_parser import read_answerkey
 from core.pdf_parser import extract_pdf_data
 from core.evaluator import evaluate_and_annotate
 
-st.set_page_config(page_title="UGC NET Evaluator", layout="centered", page_icon="📝")
+st.set_page_config(page_title="UGC NET Evaluator", layout="wide", page_icon="📝")
+
+# Sidebar profile links
+st.sidebar.markdown("""
+### 👨‍💻 Created by Bichitra Panda
+- [🔗 GitHub Repository](https://github.com/bichitra07/ugc_net_answerkey_checker)
+- [🔗 LinkedIn Profile](https://in.linkedin.com/in/bichitra-panda-484124148)
+---
+""")
 
 st.title("📝 UGC NET Answer Key Checker")
 st.markdown("Instantly evaluate your UGC NET Response Sheet against the official NTA Answer Key.")
@@ -16,7 +24,7 @@ st.sidebar.header("1. Upload Files")
 answerkey_file = st.sidebar.file_uploader("Upload Answer Key (HTML or CSV)", type=['html', 'csv'])
 response_pdf = st.sidebar.file_uploader("Upload Response Sheet (PDF)", type=['pdf'])
 
-if st.sidebar.button("Evaluate Now", type="primary"):
+if st.sidebar.button("Evaluate Now", type="primary", use_container_width=True):
     if not answerkey_file or not response_pdf:
         st.sidebar.error("Please upload both files first!")
     else:
@@ -45,29 +53,56 @@ if st.sidebar.button("Evaluate Now", type="primary"):
                     # 3. Evaluate and Annotate
                     metrics = evaluate_and_annotate(pdf_data, ans_dict, pdf_path, out_pdf_path)
                     
-                    st.success("Evaluation Complete!")
+                    st.success("🎉 Evaluation Complete! Scroll down to download your annotated PDF.")
                     
                     # Display Metrics
-                    st.header("📊 Evaluation Results")
-                    col1, col2, col3, col4 = st.columns(4)
-                    mo = metrics['Overall']
-                    col1.metric("Total Questions", mo['Total'])
-                    col2.metric("Correct", mo['Correct'])
-                    col3.metric("Incorrect", mo['Incorrect'])
-                    col4.metric("Total Score", f"{mo['Score']} / {mo['Total']*2}")
+                    st.header("📊 Detailed Analysis")
+                    
+                    tab1, tab2, tab3 = st.tabs(["🏆 Overall Performance", "📄 Paper 1", "📄 Paper 2"])
+                    
+                    def render_metrics(container, data):
+                        total = data['Total']
+                        if total == 0:
+                            container.info("No questions found for this section.")
+                            return
+                            
+                        correct = data['Correct']
+                        incorrect = data['Incorrect']
+                        unattempted = data['Unattempted']
+                        score = data['Score']
+                        percentage = (correct / total) * 100
+                        
+                        col1, col2, col3, col4 = container.columns(4)
+                        col1.metric("🎯 Score", f"{score} / {total*2}", f"{percentage:.2f}%")
+                        col2.metric("✅ Correct", correct)
+                        col3.metric("❌ Incorrect", incorrect)
+                        col4.metric("➖ Unattempted", unattempted)
+                        
+                        container.progress(percentage / 100)
+                        
+                    with tab1:
+                        render_metrics(st, metrics['Overall'])
+                    with tab2:
+                        render_metrics(st, metrics['Paper 1'])
+                    with tab3:
+                        render_metrics(st, metrics['Paper 2'])
+                    
+                    st.divider()
                     
                     # Provide Download Button for the new PDF
                     with open(out_pdf_path, "rb") as f:
                         pdf_bytes = f.read()
                         
                     st.download_button(
-                        label="📄 Download Annotated Response Sheet",
+                        label="⬇️ Download Annotated Response Sheet (PDF)",
                         data=pdf_bytes,
                         file_name="Evaluated_" + response_pdf.name,
-                        mime="application/pdf"
+                        mime="application/pdf",
+                        type="primary"
                     )
                     
             except Exception as e:
+                import traceback
                 st.error(f"An error occurred during evaluation: {str(e)}")
 else:
     st.info("👈 Upload your files in the sidebar and click 'Evaluate Now' to get started.")
