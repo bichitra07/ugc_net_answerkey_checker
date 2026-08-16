@@ -47,10 +47,20 @@ A professional, extremely fast, and robust tool for students to automatically ev
 
 ## How to get the Answer Key
 
-1. Log into the [UGC-NET Official Site](https://ugcnet.nta.ac.in/).
-2. Navigate to the Answer Key challenge page.
-3. Simply press `Ctrl + S` (or right-click -> Save As) to save the webpage as an `.html` file. You can directly upload this HTML file into the tool!
-*(Alternatively, you can copy the table to a Google Sheet and save as CSV).*
+### Option 1: Save as HTML (Recommended)
+1. Log into your NTA UGC NET account.
+2. Click on **"Challenge Answer Key"** to open the page containing the table of correct answers.
+3. Save the file:
+   - 💻 **On PC/Mac:** Press `Ctrl + S` (or `Cmd + S`) and choose "Save as type: Webpage, HTML Only".
+   - 📱 **On Mobile (Android/Chrome):** Tap the 3-dot Menu icon in the top right corner and tap the **Download ⬇️** icon. This saves the page as an HTML file.
+   - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files.
+
+### Option 2: The CSV Method
+If downloading the HTML page does not work, you can create a CSV file manually:
+1. Highlight and copy the entire Answer Key table from the NTA website.
+2. Open **Google Sheets**, **MS Excel**, or **LibreOffice Calc**.
+3. Paste the table into a new spreadsheet.
+4. Go to `File -> Download / Save As` and choose **CSV (Comma Separated Values)**.
 
 ## Download Response Sheet PDF
 

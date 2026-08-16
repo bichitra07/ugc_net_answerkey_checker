@@ -24,8 +24,10 @@ st.sidebar.header("1. Upload Files")
 answerkey_file = st.sidebar.file_uploader("Upload Answer Key (HTML or CSV)", type=['html', 'csv'])
 response_pdf = st.sidebar.file_uploader("Upload Response Sheet (PDF)", type=['pdf'])
 
-with st.sidebar.expander("ℹ️ How to download the Answer Key?"):
+@st.dialog("ℹ️ How to download the Answer Key", width="large")
+def show_instructions():
     st.markdown("""
+    ### Option 1: Save as HTML (Recommended)
     **Step 1:** Log into your NTA UGC NET account.  
     **Step 2:** Click on **"Challenge Answer Key"** to open the page containing the table of correct answers.  
     **Step 3:** Save the file:
@@ -34,13 +36,20 @@ with st.sidebar.expander("ℹ️ How to download the Answer Key?"):
     - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files.
     
     ---
-    **Alternative (CSV Method):**
+    
+    ### Option 2: The CSV Method
     If downloading the HTML page does not work, you can create a CSV file manually:
     1. Highlight and copy the entire Answer Key table from the NTA website.
     2. Open **Google Sheets**, **MS Excel**, or **LibreOffice Calc**.
     3. Paste the table into a new spreadsheet.
     4. Go to `File -> Download / Save As` and choose **CSV (Comma Separated Values)**.
     """)
+    if st.button("Got it!", use_container_width=True):
+        st.rerun()
+
+if st.sidebar.button("ℹ️ How to download Answer Key?", use_container_width=True):
+    show_instructions()
+
 
 if st.sidebar.button("Evaluate Now", type="primary", use_container_width=True):
     if not answerkey_file or not response_pdf:
