@@ -134,16 +134,17 @@ def evaluate_and_annotate(pdf_data, ans_dict, original_pdf_path, output_pdf_path
         f"Paper 1: {metrics['Paper 1']['Correct']} / {metrics['Paper 1']['Total']} Correct\n"
         f"Paper 2: {metrics['Paper 2']['Correct']} / {metrics['Paper 2']['Total']} Correct\n"
         f"Total Score: {metrics['Overall']['Score']} / {metrics['Overall']['Total'] * 2}\n"
+        f"Incorrect: {metrics['Overall']['Incorrect']} | Unattempted: {metrics['Overall']['Unattempted']}\n"
         f"Dropped: {metrics['Overall']['Dropped']} Questions"
     )
     
     # Coordinates for top right
     page_width = first_page.rect.width
-    x_score = page_width - 200
+    x_score = page_width - 210
     y_score = 50
     
     # Draw a bounding box for scorecard
-    rect = fitz.Rect(x_score - 10, y_score - 20, x_score + 180, y_score + 75)
+    rect = fitz.Rect(x_score - 10, y_score - 20, x_score + 190, y_score + 90)
     first_page.draw_rect(rect, color=(0, 0, 1), fill=(0.9, 0.9, 1.0))
     first_page.insert_text((x_score, y_score), scorecard_text, fontsize=11, color=(0,0,0.5), fontname="helv")
     
