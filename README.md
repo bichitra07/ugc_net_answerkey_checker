@@ -2,35 +2,18 @@
 
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
-<!-- ![Build Status](https://img.shields.io/github/actions/workflow/status/bichitra07/ugc_net_answerkey_checker/.github/workflows/ci.yml?branch=main)
-![Coverage](https://img.shields.io/codecov/c/github/bichitr07/ugc_net_answerkey_checker) -->
 
+A professional, extremely fast, and robust tool for students to automatically evaluate their UGC NET response sheets against the official NTA Answer Keys.
+
+## Highlights
+- **Lightning Fast Evaluation**: Processes a standard 100-page response sheet in less than 1 second.
+- **No OCR Required**: Natively extracts text and Option IDs from the digital PDF using PyMuPDF. No heavy image processing or Tesseract installations required.
+- **Native PDF Annotations**: Automatically outputs an evaluated copy of your PDF (`_evaluated.pdf`) with ✅ Correct and ❌ Incorrect annotations directly on the questions, along with a top-level scorecard.
+- **Smart Answer Key Parser**: Supports uploading both HTML (saved directly from the portal) or CSV answer keys. The system natively uses the PDF Option IDs, requiring zero manual key normalization.
 
 ## Prerequisites
 
 - Python 3.10 or above
-
-### Install Poppler Utilities
-
-#### For Linux (Ubuntu)
-```bash
-sudo apt-get install poppler-utils
-```
-
-#### For Windows
-1. Download Poppler utilities from [here](https://github.com/oschwartz10612/poppler-windows/releases/).
-2. Extract the contents inside the `C://` directory.
-
-### Install Tesseract-OCR
-
-#### For Linux
-```bash
-sudo apt-get install tesseract-ocr
-```
-
-#### For Windows
-1. Download the Tesseract-OCR setup file from [here](https://github.com/UB-Mannheim/tesseract/wiki).
-2. Install it.
 
 ## Instructions
 
@@ -47,31 +30,32 @@ sudo apt-get install tesseract-ocr
    ```bash
    pip install -r requirements.txt
    ```
-5. Run `main.py` for the command-line interface (CLI) or `ui.py` for the graphical user interface (GUI).
+5. Run the graphical user interface (GUI) or the command-line interface (CLI):
+   ```bash
+   python run_gui.py
+   # OR
+   python main.py <answer_key_path> <response_pdf_path>
+   ```
 
 ## Process Instructions
 
-1. **Select AnswerKey CSV File**: You will be prompted to input a CSV file containing the answer key. The CSV should have two columns: `Question ID` and `Answer`.
-2. **Select Response PDF**: Select the response PDF. By default, it will evaluate the Computer Science answer key. You can change the subject by selecting a different CSV or PDF.
-3. **Evaluate**: In the GUI, click the "Evaluate" button to start the evaluation process. In the CLI, it will evaluate automatically once the files are selected.
-4. **Save Results**: After evaluation, you can save the results to a CSV file and the detailed analysis report to a text file. Results will be saved in the `results` folder with the same name as the response PDF.
+1. **Select AnswerKey File**: Select either the downloaded HTML file from the NTA portal or a generated CSV. 
+2. **Select Response PDF**: Select your downloaded NTA response sheet PDF.
+3. **Evaluate**: Click the "Evaluate" button. 
+4. **View Results**: The tool will instantly evaluate your performance and save a brand new PDF (e.g. `ResponseSheet_evaluated.pdf`) in the same folder as your original PDF. Open it to see your scorecard and question-by-question annotations!
 
-## How to Make the Answer Key CSV
+## How to get the Answer Key
 
-1. Copy the table contents of the answer key from [UGC-NET Official Site](https://ugcnet.nta.ac.in/) after logging in.
-2. Paste the content into a Google Sheet and download it as a CSV.  
-   *Note: The answer key for Computer Science and Applications is used by default.*
+1. Log into the [UGC-NET Official Site](https://ugcnet.nta.ac.in/).
+2. Navigate to the Answer Key challenge page.
+3. Simply press `Ctrl + S` (or right-click -> Save As) to save the webpage as an `.html` file. You can directly upload this HTML file into the tool!
+*(Alternatively, you can copy the table to a Google Sheet and save as CSV).*
 
 ## Download Response Sheet PDF
 
-Download your response sheet PDF from the [NTA website](https://ugcnet.nta.ac.in/).  
-*Note: Login required. [Currently, Login is closed.]*
-
-## Wait for the Results
-
-It will take some time to evaluate the response pdf as it has to be converted to images and then processed. [*Currently, it takes around 2-5 minutes.*]
+Download your response sheet PDF from the [NTA website](https://ugcnet.nta.ac.in/).
+Ensure you are using the "Save as PDF" option from your browser print menu, ensuring the text is selectable.
 
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
-```

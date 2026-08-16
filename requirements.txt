@@ -1,7 +1,5 @@
 pandas
-pillow
-pdf2image
-numpy
-opencv-python
-pytesseract
-tk
+beautifulsoup4
+lxml
+html5lib
+pymupdf

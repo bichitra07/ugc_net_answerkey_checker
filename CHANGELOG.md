@@ -2,21 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - 2024-09-10
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
 
 ### Added
-- Initial release of the UGC-NET AnswerKey Checker project.
-- Implemented core functionality to process answer key CSV and candidate response PDFs.
-- Added basic UI with buttons for selecting files, evaluating responses, and exiting.
-- Created templates for contributing, issues, and pull requests.
+- **Core Modular Architecture**: Reorganized into `core` and `gui` packages to prepare for future Web App deployments.
+- **Smart PDF Mapping**: Evaluator directly uses Option IDs natively embedded within the PDF text instead of forcing external Answer Key normalization.
+- **Native PDF Annotations**: Evaluated outputs are saved natively as `_evaluated.pdf`.
+- **Scorecard Drawer**: Added an overall performance scorecard annotated onto the top right corner of the first PDF page.
+- **Question Markers**: Added visual `✅ Correct` / `❌ Incorrect` markers drawn 20 pixels directly above every Question ID in the evaluated PDF.
+- **HTML Answer Key Support**: Direct ingestion of NTA portal Answer Keys saved as `.html`, including automatic layout stripping and generation of backup `.csv`s.
 
-### Documentation
-- Added `README.md` with setup instructions, process details, and project information.
-- Added `CONTRIBUTING.md` with guidelines for contributing to the project.
-- Created issue and pull request templates for better contribution management.
+### Changed
+- **Lightning Fast Extraction**: Replaced PyTesseract and pdf2image with `PyMuPDF`, increasing parsing speed by >100x and eliminating local dependencies like Poppler and Tesseract.
+- **Separated Entry Points**: Dedicated `main.py` for CLI execution and `run_gui.py` for UI execution.
+- **README Redux**: Refactored README instructions to reflect the vastly simplified installation process.
 
-### Project Structure
-- Set up basic project structure including `main.py`, `ui.py`, `utils.py`, and `tests/`.
-- Included external libraries in `requirements.txt`.
-- Added `.gitignore` to exclude unnecessary files from version control.
-
+### Removed
+- **Tesseract & Image Libraries**: Removed `pytesseract`, `pdf2image`, `opencv-python`, and `pillow` from dependencies.
+- **Scraping Artifacts**: Removed throwaway normalization scripts and test files.
+- **OCR Logic**: Extracted all legacy RegEx dependent on OCR inaccuracies.
