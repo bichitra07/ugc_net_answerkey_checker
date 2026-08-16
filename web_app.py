@@ -31,7 +31,15 @@ with st.sidebar.expander("ℹ️ How to download the Answer Key?"):
     **Step 3:** Save the file:
     - 💻 **On PC/Mac:** Press `Ctrl + S` (or `Cmd + S`) and choose "Save as type: Webpage, HTML Only".
     - 📱 **On Mobile (Android/Chrome):** Tap the 3-dot Menu icon in the top right corner and tap the **Download ⬇️** icon. This saves the page as an HTML file.
-    - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files (or copy the table and paste into a CSV spreadsheet).
+    - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files.
+    
+    ---
+    **Alternative (CSV Method):**
+    If downloading the HTML page does not work, you can create a CSV file manually:
+    1. Highlight and copy the entire Answer Key table from the NTA website.
+    2. Open **Google Sheets**, **MS Excel**, or **LibreOffice Calc**.
+    3. Paste the table into a new spreadsheet.
+    4. Go to `File -> Download / Save As` and choose **CSV (Comma Separated Values)**.
     """)
 
 if st.sidebar.button("Evaluate Now", type="primary", use_container_width=True):
