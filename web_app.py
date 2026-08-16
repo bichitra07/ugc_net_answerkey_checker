@@ -24,6 +24,16 @@ st.sidebar.header("1. Upload Files")
 answerkey_file = st.sidebar.file_uploader("Upload Answer Key (HTML or CSV)", type=['html', 'csv'])
 response_pdf = st.sidebar.file_uploader("Upload Response Sheet (PDF)", type=['pdf'])
 
+with st.sidebar.expander("ℹ️ How to download the Answer Key?"):
+    st.markdown("""
+    **Step 1:** Log into your NTA UGC NET account.  
+    **Step 2:** Click on **"Challenge Answer Key"** to open the page containing the table of correct answers.  
+    **Step 3:** Save the file:
+    - 💻 **On PC/Mac:** Press `Ctrl + S` (or `Cmd + S`) and choose "Save as type: Webpage, HTML Only".
+    - 📱 **On Mobile (Android/Chrome):** Tap the 3-dot Menu icon in the top right corner and tap the **Download ⬇️** icon. This saves the page as an HTML file.
+    - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files (or copy the table and paste into a CSV spreadsheet).
+    """)
+
 if st.sidebar.button("Evaluate Now", type="primary", use_container_width=True):
     if not answerkey_file or not response_pdf:
         st.sidebar.error("Please upload both files first!")
