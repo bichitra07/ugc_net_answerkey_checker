@@ -19,6 +19,30 @@ st.markdown("""
 st.title("📝 UGC NET Answer Key Checker")
 st.markdown("Instantly evaluate your UGC NET Response Sheet against the official NTA Answer Key.")
 
+@st.dialog("ℹ️ How to download the Provisional Answer Key", width="large")
+def show_instructions():
+    st.markdown("""
+    ### Option 1: Save as HTML (Recommended)
+    **Step 1:** Log into your NTA UGC NET account.  
+    **Step 2:** Navigate to **"Challenge Answer Key"** to open the page containing the table of correct answers.  
+    **Step 3:** Save the file:
+    - 💻 **On PC/Mac:** Press `Ctrl + S` (or `Cmd + S`) and choose "Save as type: Webpage, HTML Only".
+    - 📱 **On Mobile (Android/Chrome):** Tap the 3-dot Menu icon in the top right corner and tap the **Download ⬇️** icon. This saves the page as an HTML file.
+    - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files.
+    
+    ---
+    
+    ### Option 2: The CSV Method
+    If downloading the HTML page does not work, you can create a CSV file manually:
+    1. Highlight and copy the entire Answer Key table from the NTA website.
+    2. Open **Google Sheets**, **MS Excel**, or **LibreOffice Calc**.
+    3. Paste the table into a new spreadsheet.
+    4. Go to `File -> Download / Save As` and choose **CSV (Comma Separated Values)**.
+    """)
+    if st.button("Got it!", use_container_width=True):
+        st.rerun()
+
+
 col_auth, col_btn = st.columns([3, 1])
 with col_auth:
     st.markdown("""
@@ -43,28 +67,7 @@ else:
 
 response_pdf = st.sidebar.file_uploader("Upload Response Sheet (PDF)", type=['pdf'])
 
-@st.dialog("ℹ️ How to download the Provisional Answer Key", width="large")
-def show_instructions():
-    st.markdown("""
-    ### Option 1: Save as HTML (Recommended)
-    **Step 1:** Log into your NTA UGC NET account.  
-    **Step 2:** Navigate to **"Challenge Answer Key"** to open the page containing the table of correct answers.  
-    **Step 3:** Save the file:
-    - 💻 **On PC/Mac:** Press `Ctrl + S` (or `Cmd + S`) and choose "Save as type: Webpage, HTML Only".
-    - 📱 **On Mobile (Android/Chrome):** Tap the 3-dot Menu icon in the top right corner and tap the **Download ⬇️** icon. This saves the page as an HTML file.
-    - 🍏 **On Mobile (iOS/Safari):** Tap the Share icon, select Options, choose 'Web Archive', and save to Files.
-    
-    ---
-    
-    ### Option 2: The CSV Method
-    If downloading the HTML page does not work, you can create a CSV file manually:
-    1. Highlight and copy the entire Answer Key table from the NTA website.
-    2. Open **Google Sheets**, **MS Excel**, or **LibreOffice Calc**.
-    3. Paste the table into a new spreadsheet.
-    4. Go to `File -> Download / Save As` and choose **CSV (Comma Separated Values)**.
-    """)
-    if st.button("Got it!", use_container_width=True):
-        st.rerun()
+
 
 submit = st.sidebar.button("Evaluate Now", type="primary", use_container_width=True)
 
