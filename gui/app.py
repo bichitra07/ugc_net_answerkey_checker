@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import os
 
-from core.answerkey_parser import read_answerkey
+from core.answerkey_parser import read_answerkey, parse_final_pdf_key
 from core.pdf_parser import extract_pdf_data
 from core.evaluator import evaluate_and_annotate
 
@@ -64,7 +64,7 @@ class EvaluationApp:
         paper_frame = tk.LabelFrame(parent_frame, text=paper_name, bg=bg_color, padx=5, pady=5)
         paper_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=5, pady=5)
         
-        labels = ['Total Questions', 'Correct Answers', 'Incorrect Answers', 'Unattempted', 'Score', 'Percentages']
+        labels = ['Total Questions', 'Correct Answers', 'Incorrect Answers', 'Unattempted', 'Dropped', 'Score', 'Percentages']
         for i, label in enumerate(labels):
             tk.Label(paper_frame, text=label).grid(row=i, column=0, sticky=tk.W, padx=5, pady=2)
             entry = tk.Entry(paper_frame)
@@ -76,7 +76,7 @@ class EvaluationApp:
         overall_frame = tk.LabelFrame(parent_frame, text="Overall", padx=5, pady=5, bg="#e0f7fa")
         overall_frame.pack(fill=tk.X, padx=5, pady=5)
         
-        labels = ['Total', 'Correct', 'Incorrect', 'Unattempted', 'Score', 'Percentages']
+        labels = ['Total', 'Correct', 'Incorrect', 'Unattempted', 'Dropped', 'Score', 'Percentages']
         for i, label in enumerate(labels):
             tk.Label(overall_frame, text=label).grid(row=i, column=0, sticky=tk.W, padx=5, pady=2)
             entry = tk.Entry(overall_frame)
@@ -84,7 +84,7 @@ class EvaluationApp:
             setattr(self, label.lower(), entry)
     
     def select_answerkey(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Answer Key Files", "*.csv *.html"), ("CSV files", "*.csv"), ("HTML files", "*.html")])
+        file_path = filedialog.askopenfilename(filetypes=[("Answer Key Files", "*.csv *.html *.pdf"), ("CSV files", "*.csv"), ("HTML files", "*.html"), ("PDF files", "*.pdf")])
         if not file_path:
             messagebox.showerror("Error", "No file selected")
         else:
@@ -108,14 +108,19 @@ class EvaluationApp:
         
         try:
             # 1. Parse Answer Key
-            ans_dict = read_answerkey(self.answerkey_path)
+            if self.answerkey_path.lower().endswith('.pdf'):
+                ans_dict = parse_final_pdf_key(self.answerkey_path)
+                eval_type = "FINAL"
+            else:
+                ans_dict = read_answerkey(self.answerkey_path)
+                eval_type = "PROVISIONAL"
             
             # 2. Parse PDF Text
             pdf_data = extract_pdf_data(self.response_pdf_path)
             
             # 3. Evaluate and Annotate new PDF
             output_pdf_path = os.path.splitext(self.response_pdf_path)[0] + "_evaluated.pdf"
-            metrics = evaluate_and_annotate(pdf_data, ans_dict, self.response_pdf_path, output_pdf_path)
+            metrics = evaluate_and_annotate(pdf_data, ans_dict, self.response_pdf_path, output_pdf_path, evaluation_type=eval_type)
             
             self.update_ui(metrics)
             
@@ -146,6 +151,7 @@ class EvaluationApp:
             set_entry(getattr(self, f'{prefix}_correct_answers'), m['Correct'])
             set_entry(getattr(self, f'{prefix}_incorrect_answers'), m['Incorrect'])
             set_entry(getattr(self, f'{prefix}_unattempted'), m['Unattempted'])
+            set_entry(getattr(self, f'{prefix}_dropped'), m.get('Dropped', 0))
             set_entry(getattr(self, f'{prefix}_score'), m['Score'])
             
             pct = round((m['Correct'] / total * 100), 2) if total > 0 else 0
@@ -158,6 +164,7 @@ class EvaluationApp:
         set_entry(self.correct, mo['Correct'])
         set_entry(self.incorrect, mo['Incorrect'])
         set_entry(self.unattempted, mo['Unattempted'])
+        set_entry(self.dropped, mo.get('Dropped', 0))
         set_entry(self.score, mo['Score'])
         
         opct = round((mo['Correct'] / ototal * 100), 2) if ototal > 0 else 0
