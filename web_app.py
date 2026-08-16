@@ -8,8 +8,24 @@ from core.evaluator import evaluate_and_annotate
 
 st.set_page_config(page_title="UGC NET Evaluator", layout="wide", page_icon="📝")
 
+# Inject custom CSS to reduce the huge top padding in the sidebar and main page
+st.markdown("""
+<style>
+    .block-container { padding-top: 2rem; }
+    [data-testid="stSidebar"] > div:first-child { padding-top: 2rem; }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("📝 UGC NET Answer Key Checker")
 st.markdown("Instantly evaluate your UGC NET Response Sheet against the official NTA Answer Key.")
+
+st.markdown("""
+<div style='color: gray; font-size: 0.9em; margin-bottom: 20px;'>
+👨‍💻 Created by <b>Bichitra Panda</b> | 
+<a href='https://github.com/bichitra07/ugc_net_answerkey_checker' style='text-decoration: none;'>🔗 GitHub</a> | 
+<a href='https://in.linkedin.com/in/bichitra-panda-484124148' style='text-decoration: none;'>🔗 LinkedIn</a>
+</div>
+""", unsafe_allow_html=True)
 
 # File uploaders
 ak_type = st.sidebar.radio("Answer Key Format:", ["Provisional (HTML/CSV)", "Final (PDF)"], horizontal=True)
@@ -21,7 +37,7 @@ else:
 
 response_pdf = st.sidebar.file_uploader("Upload Response Sheet (PDF)", type=['pdf'])
 
-@st.dialog("ℹ️ How to download the Answer Key", width="large")
+@st.dialog("ℹ️ How to download the Provisional Answer Key", width="large")
 def show_instructions():
     st.markdown("""
     ### Option 1: Save as HTML (Recommended)
@@ -45,19 +61,10 @@ def show_instructions():
         st.rerun()
 
 col1, col2 = st.sidebar.columns(2)
-if col1.button("ℹ️ Download Guide", use_container_width=True):
+if col1.button("ℹ️ Download Provisional Answer Key", use_container_width=True):
     show_instructions()
 
 submit = col2.button("Evaluate Now", type="primary", use_container_width=True)
-
-st.sidebar.divider()
-st.sidebar.markdown("""
-<div style='text-align: center; color: gray; font-size: 0.9em;'>
-👨‍💻 Created by <b>Bichitra Panda</b><br>
-<a href='https://github.com/bichitra07/ugc_net_answerkey_checker' style='text-decoration: none;'>🔗 GitHub</a> • 
-<a href='https://in.linkedin.com/in/bichitra-panda-484124148' style='text-decoration: none;'>🔗 LinkedIn</a>
-</div>
-""", unsafe_allow_html=True)
 
 
 if submit:
